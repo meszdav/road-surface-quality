@@ -24,13 +24,22 @@ def data_processing(df, sample_rate):
 
 
     time = df["time"]
+
     gps_data = df[['lat', 'lon', 'height', 'velocity', 'direction', 'h_accuracy',
-                   'v_accuracy']].fillna(method="ffill")
+                   'v_accuracy']]
+    gps_data = pd.concat([gps_data,
+                          pd.DataFrame(columns=["helper_1"],
+                                       data = np.where(gps_data["lat"] >0,1,0))],
+                         axis=1)
+    gps_data["id_gps"] = gps_data["helper_1"].cumsum()
+
+    gps_data.fillna(method="ffill", inplace = True)
+    gps_data.drop("helper_1", axis = 1, inplace = True)
+
 
     sensor_data = df[['x_lin_acc', 'y_lin_acc', 'z_lin_acc',
                      'x_gyro', 'y_gyro','z_gyro',
-                     'x_acc', 'y_acc', 'z_acc']]\
-                     .interpolate(method='polynomial', order=2)
+                     'x_acc', 'y_acc', 'z_acc']].interpolate(method='polynomial', order=2)
 
     df = pd.concat([time,gps_data,sensor_data], axis=1).dropna()
 
@@ -43,7 +52,6 @@ def data_processing(df, sample_rate):
 
     return df
 
-
 def read_measurement(path, sample_rate):
 
     df = pd.DataFrame()
@@ -54,7 +62,6 @@ def read_measurement(path, sample_rate):
 
         new_df = pd.read_csv(path)
         new_df["sensor"] = path.split('.csv')[0].split("\\")[1]
-
         df = pd.concat([new_df,df], axis=0)
         c+=1
 
@@ -81,4 +88,3 @@ def read_measurement(path, sample_rate):
     df = data_processing(df,sample_rate)
 
     return df
-        
