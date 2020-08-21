@@ -81,4 +81,19 @@ def read_measurement(path, sample_rate):
     df = data_processing(df,sample_rate)
 
     return df
-        
+
+def read_all(sample_rate = 0.01):
+
+    q1 = read_measurement("../data/raw_data_train/rsq_q1/*",sample_rate=sample_rate)
+    q1["label"] = 0
+    q2 = read_measurement("../data/raw_data_train/rsq_q2/*", sample_rate=sample_rate)
+    q2["label"] = 1
+    q3 = read_measurement("../data/raw_data_train/rsq_q3/*", sample_rate=sample_rate)
+    q3["label"] = 2
+
+
+    df = pd.concat([q1,q2,q3],axis=0)
+
+    cols = list(df.columns)
+    cols.remove("time")
+    return df[["time"] + cols]
