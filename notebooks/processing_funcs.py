@@ -88,10 +88,6 @@ def read_measurement(path, sample_rate):
     df = data_processing(df,sample_rate)
 
     return df
-<<<<<<< HEAD
-||||||| d1c0fd2
-        
-=======
 
 def read_all(sample_rate = 0.01):
 
@@ -108,4 +104,3 @@ def read_all(sample_rate = 0.01):
     cols = list(df.columns)
     cols.remove("time")
     return df[["time"] + cols]
->>>>>>> feature-feature_engineering
