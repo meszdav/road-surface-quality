@@ -9,8 +9,6 @@ import plotly.express as px
 import glob
 import os
 
-plt.rcParams["figure.figsize"] = 16,10
-
 
 def data_processing(df, sample_rate):
     
@@ -95,7 +93,6 @@ def read_measurement(path, sample_rate):
         df = data_processing(df, sample_rate)
         
         dff = pd.concat([df,dff])
-        
         dff = dff[dff["velocity"].abs()*3.6 > 20]  
 
     
