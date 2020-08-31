@@ -14,6 +14,8 @@ notebook = "*"
 scipy = "*"
 seaborn = "*"
 matplotlib = "==3.0.3"
+dash = "*"
+dash-bootstrap-components = "*"
 
 [requires]
 python_version = "3.7"
