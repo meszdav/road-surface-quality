@@ -11,6 +11,8 @@ import os
 
 
 def data_processing(df, sample_rate):
+    """Transfroms the data into the desierd form"""
+
 
     #creating time groups in order to evenly sample the time points
     df["time_groups"] = (df["time"] / sample_rate).apply(lambda x: int(x))
@@ -52,6 +54,15 @@ def data_processing(df, sample_rate):
 
 
 def read_measurement(path, sample_rate):
+    """Read and transformall signals from a folder
+    args:
+        path (string): the path to the measurements
+        e.g.:"../data/raw_data_train/rsq_q1/*"
+
+        sample_rate (flat): the desired sample rate of the resampling
+
+    returns:
+        Returns a pivoted dataframe with all signals """
 
     dff = pd.DataFrame()
 
@@ -100,6 +111,7 @@ def read_measurement(path, sample_rate):
 
 
 def read_all(sample_rate = 0.02):
+    """Reads all data from all measurement folder"""
 
     q1 = read_measurement("../data/raw_data_train/rsq_q1/*",sample_rate=sample_rate)
     q1["label"] = 0
